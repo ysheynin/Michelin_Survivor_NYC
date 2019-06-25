@@ -15,7 +15,6 @@ from IPython.display import IFrame
 from plotly.offline import init_notebook_mode, iplot
 from plotly.graph_objs import *
 
-init_notebook_mode(connected=True)
 
 
 # pydata stack
@@ -391,7 +390,7 @@ app.layout = html.Div([
         # Match Results Table
         html.Div(
             html.Table(id='resto-results'),
-            className='six columns', style={'marginBottom': 50, 'marginTop': 25}
+            className='six columns', style={'marginBottom': '50px', 'marginTop': 25}
         ),
         html.Div(
             dcc.Markdown(id = 'suggestions'),
@@ -531,4 +530,4 @@ def load_season_points_graph(resto, perf1, perf2):
 
 # start Flask server
 if __name__ == '__main__':
-    app.run_server(debug = True)
+    app.run_server(debug = True, port = 8080)
