@@ -297,23 +297,23 @@ def make_suggestion(resto):
     service        = int(resto_df['service'].values[0] * 100)
     offerings      = int(resto_df['offerings'].values[0] * 100)
 
-    age_str        = f"{name} has been around longer than {first_rev}% of NY's Michelin-ranked restaurants in 2019."
-    rating_str     = f' Its rating is in the {rating}th percentile of ranked restaurants.'
+    age_str        = f"**{name}** has been around longer than {first_rev}% of NY's Michelin-ranked restaurants in 2019.\n"
+    rating_str     = f' Its rating is in the **{rating}th percentile** of ranked restaurants.\n'
 
     if michelin_risk < 0:
-        michelin_str = f" According to our best estimates, there is a {abs(michelin_risk)}% chance {name} will lose a Michelin star in 2020."
+        michelin_str = f"* According to our best estimates, there is a **{abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n"
     else:
-        michelin_str = f" According to our best estimates, there is a {abs(michelin_risk)}% likelihood {name} will keep (or gain) a Michelin star in 2020."
+        michelin_str = f"* According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020."
     if food_quality < 50:
-        food_str = (f' Compared to other Michelin-rated restaurants, {name} scored a {food_quality}% on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.')
+        food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a {food_quality}% on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.')
     else:
         food_str = ''
     if value < 50:
-        value_str = (f' Compared to other Michelin-rated restaurants, {name} scored a {value}% on perceived value according to yelp reviews. Reducing your prices will improve your chances of staying listed')
+        value_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a {value}% on perceived value according to yelp reviews. Reducing your prices will improve your chances of staying listed')
     else:
         value_str =''
     if service < 50:
-        service_str = (f' Compared to other Michelin-rated restaurants, {name} scored a {service}% on the quality of service according to yelp reviews. Developing ways to streamline service and hiring top-quality servers will improve your performance')
+        service_str = (f' Compared to other Michelin-rated restaurants, **{name}** scored a {service}% on the quality of service according to yelp reviews. Developing ways to streamline service and hiring top-quality servers will improve your performance')
     else:
         service_str = ''
 
@@ -530,4 +530,4 @@ def load_season_points_graph(resto, perf1, perf2):
 
 # start Flask server
 if __name__ == '__main__':
-    app.run_server(debug = True, port = 8080)
+    app.run_server(host='0.0.0.0', debug = True, port = 8050)
