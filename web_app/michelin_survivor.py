@@ -297,32 +297,32 @@ def make_suggestion(resto):
     service        = int(resto_df['service'].values[0] * 100)
     offerings      = int(resto_df['offerings'].values[0] * 100)
 
-    age_str        = f"**{name}** has been around longer than {first_rev}% of NY's Michelin-ranked restaurants in 2019.\n"
-    rating_str     = f' Its rating is in the **{rating}th percentile** of ranked restaurants.\n'
+    age_str        = f"* **{name}** has been around longer than **{first_rev}%** of NY's Michelin-ranked restaurants in 2019.\n\n"
+    rating_str     = f'* Its rating is in the **{rating}th percentile** of ranked restaurants.\n\n'
 
     if michelin_risk < 0:
-        michelin_str = f"* According to our best estimates, there is a **{abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n"
+        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n\n"
     else:
-        michelin_str = f"* According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020."
+        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020.\n\n"
     if food_quality < 50:
-        food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a {food_quality}% on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.')
+        food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{food_quality}%** on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.\n\n')
     else:
         food_str = ''
     if value < 50:
-        value_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a {value}% on perceived value according to yelp reviews. Reducing your prices will improve your chances of staying listed')
+        value_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{value}%** on perceived value according to yelp reviews. Reducing your prices will improve your chances of staying listed \n\n')
     else:
         value_str =''
     if service < 50:
-        service_str = (f' Compared to other Michelin-rated restaurants, **{name}** scored a {service}% on the quality of service according to yelp reviews. Developing ways to streamline service and hiring top-quality servers will improve your performance')
+        service_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{service}%** on the quality of service according to yelp reviews. Developing ways to streamline service and hiring top-quality servers will improve your performance \n\n')
     else:
         service_str = ''
 
     if offerings < 50:
-        offerings_str = (f' Compared to other Michelin-rated restaurants, {name} scored a {offerings}% on the quality and diversity of its offerings, according to yelp reviews. Focusing on diversifying and updating your menu will improve your current situation')
+        offerings_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{offerings}%** on the quality and diversity of its offerings, according to yelp reviews. Focusing on diversifying and updating your menu will improve your current situation\n\n')
     else:
         offerings_str = ''
 
-    total_str = age_str + rating_str + michelin_str + food_str + value_str + service_str + offerings_str
+    total_str =  michelin_str + age_str + rating_str + food_str + value_str + service_str + offerings_str
     return total_str
 
 
