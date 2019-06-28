@@ -43,12 +43,12 @@ def get_restos():
 def get_resto_data(resto):
     # '''Returns the seasons of the datbase store'''
 
-    main_points = ['name', 'div2_food_quality', 'div2_wait time', 'div4_slope', 'div1_value', 'div3_menu', 'total_service', 'total_mean', 'security']
+    main_points = ['name', 'total_food_quality', 'total_wait time', 'total_slope', 'total_value', 'total_menu', 'total_service', 'total_mean', 'security']
 
     # main_points = ['name', 'total_mean', 'total_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
     resto_series = df.loc[df.name == resto][main_points]
 
-    col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div2_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','total_food_quality': 'food quality', 'total_menu': 'offerings', 'total_service' : 'service', 'total_value': 'value', 'security' : 'Michelin 2020 Security', 'total_wait time' : 'wait time' }
 
     resto_series = resto_series.rename(columns = col_map)
 
@@ -95,7 +95,7 @@ def get_feature_data(resto_series):
 
 def plot_resto_scatter_by_feat(feat1, feat2, resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div2_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','total_food_quality': 'food quality', 'total_menu': 'offerings', 'total_service' : 'service', 'total_value': 'value', 'security' : 'Michelin 2020 Security', 'total_wait time' : 'wait time' }
 
     df_new = df.copy()
     df_new = df_new.rename(columns = my_map)
@@ -281,7 +281,7 @@ def onLoad_restaurant_options():
 
 def make_suggestion(resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div4_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','total_food_quality': 'food quality', 'total_menu': 'offerings', 'total_service' : 'service', 'total_value': 'value', 'security' : 'Michelin 2020 Security', 'total_wait time' : 'wait time' }
 
 
     df_new     = df.copy()

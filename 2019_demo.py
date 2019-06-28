@@ -50,7 +50,7 @@ def get_resto_data(resto):
 
     col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div2_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
 
-    resto_series = resto_series.rename(columns = col_map)
+    resto_series = resto_series.rename(columns = col_map).sort_values(by = 'restaurant')
 
 
     return resto_series
