@@ -25,7 +25,7 @@ import pandas as pd
 # Data Analysis / Model
 #######################
 global df
-df = pd.read_csv('michelin_2020_model_data.csv')
+df = pd.read_csv('michelin_2019_model_data.csv')
 df = df.round(decimals = 2)
 
 ###########################
@@ -281,7 +281,7 @@ def onLoad_restaurant_options():
 
 def make_suggestion(resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div4_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div4_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2019 Security', 'div2_wait time' : 'wait time' }
 
 
     df_new     = df.copy()
@@ -291,20 +291,20 @@ def make_suggestion(resto):
     name           = resto_df.restaurant.str.replace('-', ' ').values[0]
     name           = name[0].upper() + name[1:]
     rating         = int(resto_df['average rating'].values[0] * 100)
-    michelin_risk  = int(resto_df[ 'Michelin 2020 Security'].values[0] * 100)
+    michelin_risk  = int(resto_df[ 'Michelin 2019 Security'].values[0] * 100)
     first_rev      = int(resto_df.first_review.values[0] * 100)
     food_quality   = int(resto_df['food quality'].values[0] * 100)
     value          = int(resto_df['value'].values[0] * 100)
     service        = int(resto_df['service'].values[0] * 100)
     offerings      = int(resto_df['offerings'].values[0] * 100)
 
-    age_str        = f"* **{name}** has been around longer than **{first_rev}%** of NY's Michelin-ranked restaurants in 2019.\n\n"
+    age_str        = f"* **{name}** has been around longer than **{first_rev}%** of NY's Michelin-ranked restaurants in 2018.\n\n"
     rating_str     = f'* Its rating is in the **{rating}th percentile** of ranked restaurants.\n\n'
 
     if michelin_risk < 50:
-        michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n\n"
+        michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2019.\n\n"
     else:
-        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020.\n\n"
+        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2019.\n\n"
     if food_quality < 50:
         food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{food_quality}%** on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.\n\n')
     else:
@@ -348,7 +348,7 @@ app.layout = html.Div([
 #                           'text-align' : 'center'})
     # Page Header
     html.Div([
-        html.H1('Michelin Survivor: Who will stay on the Michelin guide in 2020?')
+        html.H1('Michelin Survivor:  will stay on the Michelin guide in 2019?')
     ],      style = {'padding' : '50px' ,
                                'backgroundColor' : '#800020',
                                'font-family' : 'Avenir',

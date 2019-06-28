@@ -43,12 +43,10 @@ def get_restos():
 def get_resto_data(resto):
     # '''Returns the seasons of the datbase store'''
 
-    main_points = ['name', 'div2_food_quality', 'div2_wait time', 'div4_slope', 'div1_value', 'div3_menu', 'total_service', 'total_mean', 'security']
-
-    # main_points = ['name', 'total_mean', 'total_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
+    main_points = ['name', 'total_mean', 'total_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
     resto_series = df.loc[df.name == resto][main_points]
 
-    col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div2_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','div3_food_quality': 'food quality ', 'div3_menu': 'offerings ', 'div3_service' : 'service ', 'div3_value': 'value ', 'probs' : 'Michelin 2020 Security' }
 
     resto_series = resto_series.rename(columns = col_map)
 
@@ -95,7 +93,8 @@ def get_feature_data(resto_series):
 
 def plot_resto_scatter_by_feat(feat1, feat2, resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div2_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','div3_food_quality': 'food quality ', 'div3_menu': 'offerings ', 'div3_service' : 'service ', 'div3_value': 'value ', 'probs' : 'Michelin 2020 Security' }
+
 
     df_new = df.copy()
     df_new = df_new.rename(columns = my_map)
@@ -242,7 +241,7 @@ def generate_table(resto_df, max_rows= 1):
         {
             'if': {
                 'column_id': 'Michelin 2020 Security',
-                'filter_query': '{Michelin 2020 Security} < .5'
+                'filter_query': '{Michelin 2020 Security} < 0'
             },
             'backgroundColor': 'rgb(255, 0, 0)',
             'color': 'white',
@@ -251,7 +250,7 @@ def generate_table(resto_df, max_rows= 1):
         {
             'if': {
                 'column_id': 'Michelin 2020 Security',
-                'filter_query': '{Michelin 2020 Security} > .5'
+                'filter_query': '{Michelin 2020 Security} > 0'
             },
             'backgroundColor': 'rgb(0, 255, 0)',
             'color': 'white',
@@ -281,7 +280,7 @@ def onLoad_restaurant_options():
 
 def make_suggestion(resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating','div4_food_quality': 'food quality', 'div3_menu': 'offerings', 'total_service' : 'service', 'div1_value': 'value', 'security' : 'Michelin 2020 Security', 'div2_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','div3_food_quality': 'food quality', 'div3_menu': 'offerings', 'div3_service' : 'service', 'div3_value': 'value', 'probs' : 'Michelin 2020 Security' }
 
 
     df_new     = df.copy()
@@ -301,8 +300,8 @@ def make_suggestion(resto):
     age_str        = f"* **{name}** has been around longer than **{first_rev}%** of NY's Michelin-ranked restaurants in 2019.\n\n"
     rating_str     = f'* Its rating is in the **{rating}th percentile** of ranked restaurants.\n\n'
 
-    if michelin_risk < 50:
-        michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n\n"
+    if michelin_risk < 0:
+        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n\n"
     else:
         michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020.\n\n"
     if food_quality < 50:
