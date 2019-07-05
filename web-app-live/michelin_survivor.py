@@ -25,7 +25,7 @@ import pandas as pd
 # Data Analysis / Model
 #######################
 global df
-df = pd.read_csv('michelin_2017_model_data.csv')
+df = pd.read_csv('../datasets/michelin_2020_model_data.csv')
 df = df.round(decimals = 2)
 
 ###########################
@@ -43,12 +43,12 @@ def get_restos():
 def get_resto_data(resto):
     # '''Returns the seasons of the datbase store'''
 
-    main_points = ['name', 'div4_wait time', 'div4_slope', 'div4_value', 'div4_menu', 'div4_service', 'total_mean', 'security']
+    main_points = ['name', 'div4_wait time', 'div4_slope', 'div4_value', 'div4_menu', 'div4_service', 'div4_mean', 'security']
 
-    # main_points = ['name', 'total_mean', 'div4_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
+    # main_points = ['name', 'div4_mean', 'div4_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
     resto_series = df.loc[df.name == resto][main_points]
 
-    col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2017 Security', 'div4_wait time' : 'wait time' }
+    col_map = {'name': 'restaurant', 'div4_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2020 Security', 'div4_wait time' : 'wait time' }
 
     resto_series = resto_series.rename(columns = col_map)
 
@@ -95,7 +95,7 @@ def get_feature_data(resto_series):
 
 def plot_resto_scatter_by_feat(feat1, feat2, resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2017 Security', 'div4_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'div4_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2020 Security', 'div4_wait time' : 'wait time' }
 
     df_new = df.copy()
     df_new = df_new.rename(columns = my_map)
@@ -241,8 +241,8 @@ def generate_table(resto_df, max_rows= 1):
     style_data_conditional=[
         {
             'if': {
-                'column_id': 'Michelin 2017 Security',
-                'filter_query': '{Michelin 2017 Security} < .5'
+                'column_id': 'Michelin 2020 Security',
+                'filter_query': '{Michelin 2020 Security} < .5'
             },
             'backgroundColor': 'rgb(255, 0, 0)',
             'color': 'white',
@@ -250,8 +250,8 @@ def generate_table(resto_df, max_rows= 1):
 
         {
             'if': {
-                'column_id': 'Michelin 2017 Security',
-                'filter_query': '{Michelin 2017 Security} > .5'
+                'column_id': 'Michelin 2020 Security',
+                'filter_query': '{Michelin 2020 Security} > .5'
             },
             'backgroundColor': 'rgb(0, 255, 0)',
             'color': 'white',
@@ -281,30 +281,30 @@ def onLoad_restaurant_options():
 
 def make_suggestion(resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2017 Security', 'div4_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'div4_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2020 Security', 'div4_wait time' : 'wait time' }
 
 
-    df_new        = df.copy()
-    df_new        = df_new.rename(columns = my_map)
-    resto_df      = df_new[df_new['restaurant'] == resto]
-    first_rev      = df.first_review.values.searchsorted(int(resto_df.first_review.values[0]))/len(resto_df.first_review)*100  
+    df_new     = df.copy()
+    df_new     = df_new.rename(columns = my_map)
+    resto_df   = df_new[df_new['restaurant'] == resto]
+    first_rev      = int(resto_df.first_review.values[0] * 100)
     name           = resto_df.restaurant.str.replace('-', ' ').values[0]
     name           = name[0].upper() + name[1:]
     rating         = int(resto_df['average rating'].values[0] * 100)
-    michelin_risk  = int(resto_df[ 'Michelin 2017 Security'].values[0] * 100)
+    michelin_risk  = int(resto_df[ 'Michelin 2020 Security'].values[0] * 100)
     first_rev      = int(resto_df.first_review.values[0] * 100)
     # food_quality   = int(resto_df['food quality'].values[0] * 100)
     value          = int(resto_df['value'].values[0] * 100)
     service        = int(resto_df['service'].values[0] * 100)
     offerings      = int(resto_df['offerings'].values[0] * 100)
 
-    age_str        = f"* **{name}** has been around longer than **{first_rev}%** of NY's Michelin-ranked restaurants in 2016.\n\n"
+    age_str        = f"* **{name}** has been around longer than **{first_rev}%** of NY's Michelin-ranked restaurants in 2019.\n\n"
     rating_str     = f'* Its rating is in the **{rating}th percentile** of ranked restaurants.\n\n'
 
     if michelin_risk < 50:
-        michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2017.\n\n"
+        michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n\n"
     else:
-        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2017.\n\n"
+        michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020.\n\n"
     # if food_quality < 50:
     #     food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{food_quality}%** on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.\n\n')
     # else:
@@ -348,7 +348,7 @@ app.layout = html.Div([
 #                           'text-align' : 'center'})
     # Page Header
     html.Div([
-        html.H1('Michelin Survivor: Who will stay on the Michelin guide in 2017?')
+        html.H1('Michelin Survivor: Who will stay on the Michelin guide in 2020?')
     ],      style = {'padding' : '50px' ,
                                'backgroundColor' : '#800020',
                                'font-family' : 'Avenir',

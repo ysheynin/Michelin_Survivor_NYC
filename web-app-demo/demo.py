@@ -25,7 +25,7 @@ import pandas as pd
 # Data Analysis / Model
 #######################
 global df
-df = pd.read_csv('michelin_2017_model_data.csv')
+df = pd.read_csv('../datasets/michelin_2017_model_data.csv')
 df = df.round(decimals = 2)
 
 ###########################
@@ -287,7 +287,7 @@ def make_suggestion(resto):
     df_new        = df.copy()
     df_new        = df_new.rename(columns = my_map)
     resto_df      = df_new[df_new['restaurant'] == resto]
-    first_rev      = df.first_review.values.searchsorted(int(resto_df.first_review.values[0]))/len(resto_df.first_review)*100  
+    first_rev      = df.first_review.values.searchsorted(int(resto_df.first_review.values[0]))/len(resto_df.first_review)*100
     name           = resto_df.restaurant.str.replace('-', ' ').values[0]
     name           = name[0].upper() + name[1:]
     rating         = int(resto_df['average rating'].values[0] * 100)
