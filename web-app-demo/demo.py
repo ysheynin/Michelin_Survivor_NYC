@@ -41,11 +41,10 @@ def get_restos():
 
 
 def get_resto_data(resto):
-    # '''Returns the seasons of the datbase store'''
+
 
     main_points = ['name', 'div4_wait time', 'div4_slope', 'div4_value', 'div4_menu', 'div4_service', 'total_mean', 'security']
 
-    # main_points = ['name', 'total_mean', 'div4_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
     resto_series = df.loc[df.name == resto][main_points]
 
     col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2017 Security', 'div4_wait time' : 'wait time' }
@@ -56,41 +55,9 @@ def get_resto_data(resto):
     return resto_series
 
 def get_feature_data(resto_series):
-        # '''Returns the seasons of the datbase store'''
+
     return resto_series.columns.values
 
-
-
-# def get_match_results(division, season, team):
-#     '''Returns match results for the selected prompts'''
-#
-#     results_query = (
-#         f'''
-#         SELECT date, team, opponent, goals, goals_opp, result, points
-#         FROM results
-#         WHERE division='{division}'
-#         AND season='{season}'
-#         AND team='{team}'
-#         ORDER BY date ASC
-#         '''
-#     )
-#     match_results = fetch_data(results_query)
-#     return match_results
-
-
-# def calculate_season_summary(results):
-#     record = results.groupby(by=['result'])['team'].count()
-#     summary = pd.DataFrame(
-#         data={
-#             'W': record['W'],
-#             'L': record['L'],
-#             'D': record['D'],
-#             'Points': results['points'].sum()
-#         },
-#         columns=['W', 'D', 'L', 'Points'],
-#         index=results['team'].unique(),
-#     )
-#     return summary
 
 
 def plot_resto_scatter_by_feat(feat1, feat2, resto):
@@ -259,15 +226,7 @@ def generate_table(resto_df, max_rows= 1):
 
         ],
 
-    )#html.Table(
-    #     # Header
-    #     [html.Tr([html.Th(col) for col in resto_df.columns])] +
-    #
-    #     # Body
-    #     [html.Tr([
-    #         html.Td(resto_df[col]) for col in resto_df.columns
-    #     ]) for i in range(0, max_rows)]
-    # )
+    )
 
 
 def onLoad_restaurant_options():
@@ -305,10 +264,6 @@ def make_suggestion(resto):
         michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2017.\n\n"
     else:
         michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2017.\n\n"
-    # if food_quality < 50:
-    #     food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{food_quality}%** on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.\n\n')
-    # else:
-    #     food_str = ''
     if value < 50:
         value_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{value}%** on perceived value according to yelp reviews. Reducing your prices will improve your chances of staying listed \n\n')
     else:
@@ -339,14 +294,6 @@ my_str = ''' f'{d}s are yummy '''
 app.layout = html.Div([
 
 
-# html.H1("Your title")
-#                      ],
-#                  style = {'padding' : '50px' ,
-#                           'backgroundColor' : '#',
-#                           'font-family' : 'HelveticaNeue',
-#                           'color': 'white',
-#                           'text-align' : 'center'})
-    # Page Header
     html.Div([
         html.H1('Michelin Survivor: Who will stay on the Michelin guide in 2017?')
     ],      style = {'padding' : '50px' ,
@@ -358,7 +305,7 @@ app.layout = html.Div([
     # Dropdown Grid
     html.Div([
         html.Div([
-            # Select Division Dropdown
+
             html.Div([
                 html.Div('Select Michelin Restaurant', className='three columns'),
                 html.Div(dcc.Dropdown(id='resto-selector',
@@ -366,14 +313,14 @@ app.layout = html.Div([
                          className='three columns')
             ]),
 
-            # Select Season Dropdown
+
             html.Div([
                 html.Div('KPI 1', className='three columns'),
                 html.Div(dcc.Dropdown(id='perf1-selector'),
                          className='three columns')
             ]),
 
-            # Select Team Dropdown
+
             html.Div([
                 html.Div('KPI 2', className='three columns'),
                 html.Div(dcc.Dropdown(id='perf2-selector'),
@@ -385,10 +332,10 @@ app.layout = html.Div([
         html.Div(className='six columns'),
     ], className='twleve columns'),
 
-    # Match Results Grid
+
     html.Div([
 
-        # Match Results Table
+
         html.Div(
             html.Table(id='resto-results'),
             className='six columns', style={'marginBottom': '50px', 'marginTop': 25}
@@ -398,13 +345,13 @@ app.layout = html.Div([
              className = 'six columns'),
 
 
-        # Season Summary Table and Graph
+
         html.Div([
 
-            # graph
+
             dcc.Graph(id='scatter-graph'
             )
-            # style={},
+
 
         ], className='six columns')
     ]),
@@ -415,7 +362,7 @@ app.layout = html.Div([
 # Interaction Between Components / Controller
 #############################################
 
-# Load Seasons in Dropdown
+
 @app.callback(
     Output(component_id='perf1-selector', component_property='options'),
     [
@@ -467,14 +414,6 @@ def populate_perf2_selector(resto, feat1):
         for feature in features
     ]
 
-# def populate_team_selector(division, season):
-#     teams = get_teams(division, season)
-#     return [
-#         {'label': team, 'value': team}
-#         for team in teams
-#     ]
-
-
 # Load Match results
 @app.callback(
     Output(component_id='resto-results', component_property='children'),
@@ -490,27 +429,7 @@ def load_resto_results(resto, feat1, feat2):
     return generate_table(results)
 
 
-# Update Season Summary Table
-# @app.callback(
-#     Output(component_id='resto-summary', component_property='figure'),
-#     [
-#         Input(component_id='division-selector', component_property='value'),
-#         Input(component_id='season-selector', component_property='value'),
-#         Input(component_id='team-selector', component_property='value')
-#     ]
-# )
-# def load_season_summary(division, season, team):
-#     results = get_match_results(division, season, team)
-#
-#     table = []
-#     if len(results) > 0:
-#         summary = calculate_season_summary(results)
-#         table = ff.create_table(summary)
-#
-#     return table
-#
 
-# Update Season Point Graph
 @app.callback(
     Output(component_id='scatter-graph', component_property='figure'),
     [
