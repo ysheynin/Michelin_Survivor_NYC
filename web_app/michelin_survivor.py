@@ -43,12 +43,12 @@ def get_restos():
 def get_resto_data(resto):
     # '''Returns the seasons of the datbase store'''
 
-    main_points = ['name', 'total_food_quality', 'total_wait time', 'total_slope', 'total_value', 'total_menu', 'total_service', 'total_mean', 'security']
+    main_points = ['name', 'div4_wait time', 'div4_slope', 'div4_value', 'div4_menu', 'div4_service', 'div4_mean', 'security']
 
-    # main_points = ['name', 'total_mean', 'total_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
+    # main_points = ['name', 'div4_mean', 'div4_slope','div3_food_quality', 'div3_menu',  'div3_service', 'div3_value', 'probs']
     resto_series = df.loc[df.name == resto][main_points]
 
-    col_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','total_food_quality': 'food quality', 'total_menu': 'offerings', 'total_service' : 'service', 'total_value': 'value', 'security' : 'Michelin 2020 Security', 'total_wait time' : 'wait time' }
+    col_map = {'name': 'restaurant', 'div4_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2020 Security', 'div4_wait time' : 'wait time' }
 
     resto_series = resto_series.rename(columns = col_map)
 
@@ -95,7 +95,7 @@ def get_feature_data(resto_series):
 
 def plot_resto_scatter_by_feat(feat1, feat2, resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','total_food_quality': 'food quality', 'total_menu': 'offerings', 'total_service' : 'service', 'total_value': 'value', 'security' : 'Michelin 2020 Security', 'total_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'div4_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2020 Security', 'div4_wait time' : 'wait time' }
 
     df_new = df.copy()
     df_new = df_new.rename(columns = my_map)
@@ -281,7 +281,7 @@ def onLoad_restaurant_options():
 
 def make_suggestion(resto):
 
-    my_map = {'name': 'restaurant', 'total_mean' : 'average rating', 'total_slope': 'average trend in rating','total_food_quality': 'food quality', 'total_menu': 'offerings', 'total_service' : 'service', 'total_value': 'value', 'security' : 'Michelin 2020 Security', 'total_wait time' : 'wait time' }
+    my_map = {'name': 'restaurant', 'div4_mean' : 'average rating', 'div4_slope': 'average trend in rating', 'div4_menu': 'offerings', 'div4_service' : 'service', 'div4_value': 'value', 'security' : 'Michelin 2020 Security', 'div4_wait time' : 'wait time' }
 
 
     df_new     = df.copy()
@@ -293,7 +293,7 @@ def make_suggestion(resto):
     rating         = int(resto_df['average rating'].values[0] * 100)
     michelin_risk  = int(resto_df[ 'Michelin 2020 Security'].values[0] * 100)
     first_rev      = int(resto_df.first_review.values[0] * 100)
-    food_quality   = int(resto_df['food quality'].values[0] * 100)
+    # food_quality   = int(resto_df['food quality'].values[0] * 100)
     value          = int(resto_df['value'].values[0] * 100)
     service        = int(resto_df['service'].values[0] * 100)
     offerings      = int(resto_df['offerings'].values[0] * 100)
@@ -305,10 +305,10 @@ def make_suggestion(resto):
         michelin_str = f"### According to our best estimates, there is a **{100-abs(michelin_risk)}%** chance {name} will lose a Michelin star in 2020.\n\n"
     else:
         michelin_str = f"### According to our best estimates, there is a **{abs(michelin_risk)}%** likelihood **{name}** will keep (or gain) a Michelin star in 2020.\n\n"
-    if food_quality < 50:
-        food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{food_quality}%** on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.\n\n')
-    else:
-        food_str = ''
+    # if food_quality < 50:
+    #     food_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{food_quality}%** on food quality according to yelp reviews. Improving the sourcing of ingredients and establishing higher standards with kitchen staff should improve this.\n\n')
+    # else:
+    #     food_str = ''
     if value < 50:
         value_str = (f'* Compared to other Michelin-rated restaurants, **{name}** scored a **{value}%** on perceived value according to yelp reviews. Reducing your prices will improve your chances of staying listed \n\n')
     else:
@@ -323,8 +323,8 @@ def make_suggestion(resto):
     else:
         offerings_str = ''
 
-    total_str =  michelin_str + age_str + rating_str + food_str + value_str + service_str + offerings_str
-    return total_str
+    div4_str =  michelin_str + age_str + rating_str  + value_str + service_str + offerings_str
+    return div4_str
 
 
 # Set up Dashboard and create layout
