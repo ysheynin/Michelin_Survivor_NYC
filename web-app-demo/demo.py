@@ -25,7 +25,7 @@ import pandas as pd
 # Data Analysis / Model
 #######################
 global df
-df = pd.read_csv('../datasets/michelin_2017_model_data.csv')
+df = pd.read_csv('/home/yasha/develop/Michelin_Survivor_NYC/datasets/michelin_2017_model_data.csv')
 df = df.round(decimals = 2)
 
 ###########################
