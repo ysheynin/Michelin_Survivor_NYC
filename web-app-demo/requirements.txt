@@ -82,7 +82,7 @@ jwcrypto==0.6.0
 keyring==19.0.2
 kiwisolver==1.1.0
 leather==0.3.3
-lxml==4.3.4
+lxml==4.6.5
 MarkupSafe==1.1.1
 matplotlib==3.0.3
 mistune==0.8.4
